@@ -1,20 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { ALL_PRODUCTS_API_URL } from './components/API/API';
+import ProductItem from './components/ProductItem/ProductItem';
 
 export default function App() {
+
+  const [products, setProducts] = useState([]);
+
+  useEffect(()=>{
+    async function loadData(){
+      const response = await fetch(ALL_PRODUCTS_API_URL);
+      const data = await response.json();
+      setProducts(data);
+      return data;
+    }
+    loadData();
+  },[])
+
   return (
     <View style={styles.container}>
 
-      <View style={styles.productContainer}>
-
-        <View style={styles.titles}>
-          <Text style={styles.title}>Model S</Text>
-          <Text style={styles.subtitle}>Starting at $69,420</Text>
-        </View>
-
-      </View>
-
+      <ProductItem />
 
       <StatusBar style="auto" />
     </View>
@@ -28,21 +35,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  productContainer: {
-    width:'100%',
-    height:'100%',
-  },
-  titles: {
-    marginTop:'30%',
-    width:'100%',
-    alignItems:'center'
-  },
-  title: {
-    fontSize: 40,
-    fontWeight: '500',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#5c5e62'
-  }
 });
