@@ -1,28 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
-import { ALL_PRODUCTS_API_URL } from './components/API/API';
-import ProductItem from './components/ProductItem/ProductItem';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import CarsList from './components/CarsList';
+import Header from './components/Header';
 
 export default function App() {
-
-  const [products, setProducts] = useState([]);
-
-  useEffect(()=>{
-    async function loadData(){
-      const response = await fetch(ALL_PRODUCTS_API_URL);
-      const data = await response.json();
-      setProducts(data);
-      return data;
-    }
-    loadData();
-  },[])
-
   return (
     <View style={styles.container}>
-
-      <ProductItem />
-
+      <Header />
+      <CarsList />
       <StatusBar style="auto" />
     </View>
   );
